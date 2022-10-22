@@ -14,12 +14,10 @@ import { StackActions } from '@react-navigation/native';
 import { Color, paddingHorizontalContainer } from '../constants';
 import { Entypo, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { REGEX_EMAIL_VALIDATION } from '../constants';
-import useFakeRequest from '../hooks/useFakeRequest';
 import { useUser } from '../hooks/useUser';
 
 const SignupScreen = ({ navigation }) => {
-  const { addUser, users, isUserExists } = useUser();
-  const { requestLoading, onFakeRequest } = useFakeRequest();
+  const { signup,userLoading } = useUser();
   const [signupCredentials, setSignupCredentials] = useState({
     firstName: '',
     lastName: '',
@@ -58,7 +56,7 @@ const SignupScreen = ({ navigation }) => {
               mode="outlined"
               label="First name"
               autoComplete="name-given"
-              disabled={requestLoading}
+              disabled={userLoading}
               onChangeText={(text) =>
                 setSignupCredentials({ ...signupCredentials, firstName: text })
               }
@@ -87,7 +85,7 @@ const SignupScreen = ({ navigation }) => {
               onChangeText={(text) =>
                 setSignupCredentials({ ...signupCredentials, lastName: text })
               }
-              disabled={requestLoading}
+              disabled={userLoading}
               value={signupCredentials.lastName}
               mode="outlined"
               style={{
@@ -114,7 +112,7 @@ const SignupScreen = ({ navigation }) => {
               onChangeText={(text) =>
                 setSignupCredentials({ ...signupCredentials, email: text })
               }
-              disabled={requestLoading}
+              disabled={userLoading}
               value={signupCredentials.email}
               mode="outlined"
               style={{
@@ -134,7 +132,7 @@ const SignupScreen = ({ navigation }) => {
             <TextInput
               label="Password"
               secureTextEntry={true}
-              disabled={requestLoading}
+              disabled={userLoading}
               autoComplete="password"
               onChangeText={(text) =>
                 setSignupCredentials({ ...signupCredentials, password: text })
@@ -164,9 +162,9 @@ const SignupScreen = ({ navigation }) => {
                     : 'unchecked'
                 }
                 color={Color.primary}
-                disabled={requestLoading}
+                disabled={userLoading}
                 onPress={() => {
-                  !requestLoading &&
+                  !userLoading &&
                     setSignupCredentials({
                       ...signupCredentials,
                       agreeOnPrivacyPolicy:
@@ -180,11 +178,11 @@ const SignupScreen = ({ navigation }) => {
           <View>
             <TouchableOpacity
               onPress={() => navigation.navigate('Signin')}
-              disabled={requestLoading}>
+              disabled={userLoading}>
               <Text
                 style={{
                   color: Color.gray,
-                  opacity: requestLoading ? 0.5 : 1,
+                  opacity: userLoading ? 0.5 : 1,
                   textAlign: 'center',
                   marginBottom: 12,
                 }}>
@@ -200,8 +198,8 @@ const SignupScreen = ({ navigation }) => {
                 borderRadius: 100,
                 backgroundColor: Color.primary,
               }}
-              disabled={requestLoading}
-              loading={requestLoading}
+              disabled={userLoading}
+              loading={userLoading}
               onPress={async () => {
                 if (!signupCredentials.firstName) {
                   Alert.alert('Missing first name', 'First name is required', [
@@ -248,9 +246,9 @@ const SignupScreen = ({ navigation }) => {
                   return;
                 }
 
-                await onFakeRequest();
-                const user = isUserExists(signupCredentials.email);
-                if (user) {
+                const { agreeOnPrivacyPolicy, ...userNoAgree } =
+                  signupCredentials;
+                if (await signup(userNoAgree)) {
                   Alert.alert(
                     'Account already exists',
                     'Your account is already existing. Try logging in.',
@@ -261,14 +259,10 @@ const SignupScreen = ({ navigation }) => {
                       },
                     ]
                   );
-                } else {
-                  const { agreeOnPrivacyPolicy, ...userNoAgree } =
-                    signupCredentials;
-                  addUser(userNoAgree);
-                  const newUser = isUserExists(userNoAgree.email);
-
-                  navigation.dispatch(StackActions.replace('Home'), newUser);
+                  return;
                 }
+
+                navigation.dispatch(StackActions.replace('Home'));
                 setSignupCredentials({
                   firstName: '',
                   lastName: '',

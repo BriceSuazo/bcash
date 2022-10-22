@@ -5,13 +5,15 @@ import {
   ScrollView,
   RefreshControl,
 } from 'react-native';
-
 import { FontAwesome } from '@expo/vector-icons';
 import Header from '../components/Header';
 import { Color, homeScreenIcons, transactions } from '../constants';
 import useFakeRefresh from '../hooks/useFakeRefresh';
+import { useUser } from '../hooks/useUser';
 
 const HomeScreen = ({ navigation }) => {
+  const { user } = useUser();
+  console.log(user);
   const { refreshing, onRefresh } = useFakeRefresh();
   return (
     <>
@@ -57,7 +59,7 @@ const HomeScreen = ({ navigation }) => {
                   navigation.navigate(icon.navigate);
                 }}
                 style={{
-                  width:  48,
+                  width: 48,
                   height: 48,
                   backgroundColor: 'white',
                   padding: 10,

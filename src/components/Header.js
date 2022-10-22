@@ -1,9 +1,9 @@
 import { View, Button, TouchableOpacity, Image } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import { useNavigation, StackActions } from '@react-navigation/native';
+import { useUser } from '../hooks/useUser';
 
 const Header = () => {
-  const navigation = useNavigation();
+  const { signout } = useUser();
   return (
     <View
       style={{
@@ -20,10 +20,7 @@ const Header = () => {
         style={{ width: 32, height: 32, resizeMode: 'contain' }}
         source={require('../assets/imgs/bcash-logo.png')}
       />
-      <Button
-        title="Signout"
-        onPress={() => navigation.dispatch(StackActions.replace('Signin'))}
-      />
+      <Button title="Signout" onPress={async () => await signout()} />
       <TouchableOpacity onPress={() => navigation.navigate('Notifications')}>
         <FontAwesome name="bell" size={22} color="white" />
       </TouchableOpacity>

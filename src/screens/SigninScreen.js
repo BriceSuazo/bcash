@@ -9,7 +9,6 @@ import {
   TouchableWithoutFeedback,
   Platform,
 } from 'react-native';
-import { StackActions } from '@react-navigation/native';
 import { TextInput, Button } from 'react-native-paper';
 import {
   Color,
@@ -17,13 +16,11 @@ import {
   REGEX_EMAIL_VALIDATION,
 } from '../constants';
 import { Entypo, AntDesign } from '@expo/vector-icons';
-import useFakeRequest from '../hooks/useFakeRequest';
 import { useUser } from '../hooks/useUser';
 
 const SigninScreen = ({ navigation }) => {
-  const { isUserExists } = useUser();
+  const { signin, userLoading } = useUser();
 
-  const { requestLoading, onFakeRequest } = useFakeRequest();
   const [signinCredentials, setSigninCredentials] = useState({
     email: '',
     password: '',
@@ -59,7 +56,7 @@ const SigninScreen = ({ navigation }) => {
               outlineColor={Color.gray}
               label="Email"
               autoComplete="email"
-              disabled={requestLoading}
+              disabled={userLoading}
               onChangeText={(text) =>
                 setSigninCredentials({ ...signinCredentials, email: text })
               }
@@ -80,7 +77,7 @@ const SigninScreen = ({ navigation }) => {
               mode="outlined"
               outlineColor={Color.gray}
               theme={{ colors: { primary: Color.primary } }}
-              disabled={requestLoading}
+              disabled={userLoading}
               label="Password"
               autoComplete="password"
               secureTextEntry
@@ -104,12 +101,12 @@ const SigninScreen = ({ navigation }) => {
           <View>
             <TouchableOpacity
               onPress={() => navigation.navigate('Signup')}
-              disabled={requestLoading}>
+              disabled={userLoading}>
               <Text
                 style={{
                   color: Color.gray,
                   textAlign: 'center',
-                  opacity: requestLoading ? 0.5 : 1,
+                  opacity: userLoading ? 0.5 : 1,
                   marginBottom: 12,
                 }}>
                 {`Don't have an account yet? `}
@@ -124,8 +121,8 @@ const SigninScreen = ({ navigation }) => {
                 backgroundColor: Color.primary,
                 marginBottom: 12,
               }}
-              disabled={requestLoading}
-              loading={requestLoading}
+              disabled={userLoading}
+              loading={userLoading}
               onPress={async () => {
                 if (
                   REGEX_EMAIL_VALIDATION.test(signinCredentials.email) ===
@@ -154,13 +151,11 @@ const SigninScreen = ({ navigation }) => {
                   return;
                 }
 
-                await onFakeRequest();
-
-                const user = isUserExists(signinCredentials.email);
-                if (user && user.password === signinCredentials.password) {
-                  setSigninCredentials({ email: '', password: '' });
-                  navigation.dispatch(StackActions.replace('Home'), user);
-                } else {
+                const test = await signin(
+                  signinCredentials.email,
+                  signinCredentials.password
+                );
+                if (!test) {
                   Alert.alert(
                     'Invalid credentials',
                     'Email or password is incorrect.',
