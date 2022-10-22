@@ -2,7 +2,7 @@ import { Platform, StatusBar } from 'react-native';
 
 export const Color = {
   primary: '#2db85b',
-  gray:"gray",
+  gray: 'gray',
 };
 
 export const STATUSBAR_HEIGHT =
@@ -10,7 +10,8 @@ export const STATUSBAR_HEIGHT =
 
 export const paddingHorizontalContainer = 16;
 
-export const REGEX_EMAIL_VALIDATION=/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/
+export const REGEX_EMAIL_VALIDATION =
+  /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
 
 export const homeScreenIcons = [
   { icon: 'send', navigate: 'SendPayment', text: 'Send' },
@@ -40,6 +41,16 @@ export const transactions = [
   { type: 'Transfer', to: '+639123456789', amount: `₱658.32` },
   { type: 'Transfer', to: '+639123456789', amount: `₱658.32` },
   { type: 'Transfer', to: '+639123456789', amount: `₱658.32` },
+];
+
+export const constantUsers = [
+  {
+    id: 0,
+    firstName: 'Brice Brine',
+    lastName: 'Suazo',
+    email: 'bricebrine.suazo@cvsu.edu.ph',
+    password: '12345678',
+  },
 ];
 
 export const notifications = [

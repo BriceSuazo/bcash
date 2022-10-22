@@ -7,16 +7,18 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
-  ScrollView,
   Platform,
 } from 'react-native';
 import { TextInput, Button, Checkbox } from 'react-native-paper';
+import { StackActions } from '@react-navigation/native';
 import { Color, paddingHorizontalContainer } from '../constants';
 import { Entypo, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { REGEX_EMAIL_VALIDATION } from '../constants';
 import useFakeRequest from '../hooks/useFakeRequest';
+import { useUser } from '../hooks/useUser';
 
 const SignupScreen = ({ navigation }) => {
+  const { addUser, users, isUserExists } = useUser();
   const { requestLoading, onFakeRequest } = useFakeRequest();
   const [signupCredentials, setSignupCredentials] = useState({
     firstName: '',
@@ -56,6 +58,7 @@ const SignupScreen = ({ navigation }) => {
               mode="outlined"
               label="First name"
               autoComplete="name-given"
+              disabled={requestLoading}
               onChangeText={(text) =>
                 setSignupCredentials({ ...signupCredentials, firstName: text })
               }
@@ -84,6 +87,7 @@ const SignupScreen = ({ navigation }) => {
               onChangeText={(text) =>
                 setSignupCredentials({ ...signupCredentials, lastName: text })
               }
+              disabled={requestLoading}
               value={signupCredentials.lastName}
               mode="outlined"
               style={{
@@ -110,6 +114,7 @@ const SignupScreen = ({ navigation }) => {
               onChangeText={(text) =>
                 setSignupCredentials({ ...signupCredentials, email: text })
               }
+              disabled={requestLoading}
               value={signupCredentials.email}
               mode="outlined"
               style={{
@@ -129,6 +134,7 @@ const SignupScreen = ({ navigation }) => {
             <TextInput
               label="Password"
               secureTextEntry={true}
+              disabled={requestLoading}
               autoComplete="password"
               onChangeText={(text) =>
                 setSignupCredentials({ ...signupCredentials, password: text })
@@ -158,22 +164,27 @@ const SignupScreen = ({ navigation }) => {
                     : 'unchecked'
                 }
                 color={Color.primary}
+                disabled={requestLoading}
                 onPress={() => {
-                  setSignupCredentials({
-                    ...signupCredentials,
-                    agreeOnPrivacyPolicy:
-                      !signupCredentials.agreeOnPrivacyPolicy,
-                  });
+                  !requestLoading &&
+                    setSignupCredentials({
+                      ...signupCredentials,
+                      agreeOnPrivacyPolicy:
+                        !signupCredentials.agreeOnPrivacyPolicy,
+                    });
                 }}
                 labelStyle={{ fontSize: 12, textAlign: 'left' }}
               />
             </View>
           </View>
           <View>
-            <TouchableOpacity onPress={() => navigation.navigate('Signin')}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Signin')}
+              disabled={requestLoading}>
               <Text
                 style={{
                   color: Color.gray,
+                  opacity: requestLoading ? 0.5 : 1,
                   textAlign: 'center',
                   marginBottom: 12,
                 }}>
@@ -204,7 +215,6 @@ const SignupScreen = ({ navigation }) => {
                   ]);
                   return;
                 }
-
                 if (
                   REGEX_EMAIL_VALIDATION.test(signupCredentials.email) === false
                 ) {
@@ -239,12 +249,36 @@ const SignupScreen = ({ navigation }) => {
                 }
 
                 await onFakeRequest();
-                navigation.dispatch(
-                  StackActions.replace('Home'),
-                  signupCredentials
-                );
+                const user = isUserExists(signupCredentials.email);
+                if (user) {
+                  Alert.alert(
+                    'Account already exists',
+                    'Your account is already existing. Try logging in.',
+                    [
+                      {
+                        text: 'Go to login',
+                        onPress: () => navigation.navigate('Signin'),
+                      },
+                    ]
+                  );
+                } else {
+                  const { agreeOnPrivacyPolicy, ...userNoAgree } =
+                    signupCredentials;
+                  addUser(userNoAgree);
+                  const newUser = isUserExists(userNoAgree.email);
+
+                  navigation.dispatch(StackActions.replace('Home'), newUser);
+                }
+                setSignupCredentials({
+                  firstName: '',
+                  lastName: '',
+                  birthday: '',
+                  email: '',
+                  password: '',
+                  agreeOnPrivacyPolicy: false,
+                });
               }}>
-              Sign up
+              {`Sign up`}
             </Button>
           </View>
         </View>

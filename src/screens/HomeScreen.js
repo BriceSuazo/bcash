@@ -57,7 +57,7 @@ const HomeScreen = ({ navigation }) => {
                   navigation.navigate(icon.navigate);
                 }}
                 style={{
-                  width: 48,
+                  width:  48,
                   height: 48,
                   backgroundColor: 'white',
                   padding: 10,
