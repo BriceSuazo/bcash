@@ -7,13 +7,14 @@ import {
 import { Text } from 'react-native-paper';
 import { FontAwesome } from '@expo/vector-icons';
 import Header from '../components/Header';
-import { Color, homeScreenIcons, transactions } from '../constants';
-import useFakeRefresh from '../hooks/useFakeRefresh';
+import { Color, homeScreenIcons } from '../constants';
+
 import { useUser } from '../hooks/useUser';
+import BottomNavigation from '../components/@home/BottomNavigation';
 
 const HomeScreen = ({ navigation }) => {
   const { user } = useUser();
-  const { refreshing, onRefresh } = useFakeRefresh();
+
   return (
     <>
       <Header />
@@ -27,11 +28,11 @@ const HomeScreen = ({ navigation }) => {
         }}>
         <View style={{ marginBottom: 28 }}>
           <Text
+            variant="displaySmall"
             style={{
               textAlign: 'center',
-              fontSize: 42,
-              fontWeight: '500',
               color: 'white',
+              fontWeight: 'bold',
               marginBottom: 8,
             }}>{`₱69,420.25`}</Text>
           <Text
@@ -77,71 +78,7 @@ const HomeScreen = ({ navigation }) => {
         </View>
       </View>
 
-      <ScrollView
-        style={{ height: '100%' }}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }>
-        <View style={{ padding: 16 }}>
-          <Text style={{ fontSize: 16, marginBottom: 16, color: 'gray' }}>
-            Today
-          </Text>
-          {transactions.map((transaction, index) => {
-            return (
-              <TouchableOpacity
-                key={index}
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  marginBottom: 8,
-                  paddingVertical: 8,
-                }}>
-                <View
-                  style={{
-                    padding: 10,
-                    backgroundColor: Color.primary,
-                    borderRadius: 100,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: 38,
-                    height: 38,
-                  }}>
-                  <FontAwesome
-                    name={
-                      (transaction.type === 'Transfer' && 'send') ||
-                      (transaction.type === 'Buy' && 'shopping-cart') ||
-                      (transaction.type === 'Swap' && 'arrows-h')
-                    }
-                    size={18}
-                    color="white"
-                  />
-                </View>
-
-                <View
-                  style={{
-                    marginLeft: 8,
-                    justifyContent: 'space-between',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    flex: 1,
-                  }}>
-                  <View>
-                    <Text style={{ fontWeight: '700' }}>
-                      {transaction.type}
-                    </Text>
-                    <Text style={{ fontSize: 12 }}>To: {transaction.to}</Text>
-                  </View>
-                  <View>
-                    <Text style={{ fontWeight: '700' }}>
-                      {transaction.amount}
-                    </Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-      </ScrollView>
+      <BottomNavigation />
     </>
   );
 };
