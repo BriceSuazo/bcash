@@ -19,7 +19,7 @@ export default function App() {
       <NavigationContainer>
         <UserProvider>
           <Stack.Navigator
-            initialRouteName="Widget"
+            initialRouteName="Notifications"
             screenOptions={{
               headerStyle: { backgroundColor: Color.primary },
               headerTintColor: '#fff',
@@ -56,7 +56,7 @@ export default function App() {
             <Stack.Screen
               name="Notifications"
               component={NotificationScreen}
-              options={{ title: 'Notifications' }}
+              options={{ title: 'View all notifications' }}
             />
           </Stack.Navigator>
         </UserProvider>

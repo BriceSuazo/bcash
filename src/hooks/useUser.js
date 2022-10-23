@@ -21,7 +21,7 @@ const useProvideUser = () => {
 
   useEffect(() => {
     if (!user) {
-      navigation.dispatch(StackActions.replace('Signin'));
+      // navigation.dispatch(StackActions.replace('Signin'));
     }
   }, [user, navigation]);
 
@@ -37,6 +37,7 @@ const useProvideUser = () => {
   const signout = async () => {
     await onFakeRequest();
     setUser(null);
+    navigation.dispatch(StackActions.replace('Signin'));
   };
   const signin = async (email, password) => {
     await onFakeRequest();

@@ -1,10 +1,10 @@
 import {
-  Text,
   View,
   TouchableOpacity,
   ScrollView,
   RefreshControl,
 } from 'react-native';
+import { Text } from 'react-native-paper';
 import { FontAwesome } from '@expo/vector-icons';
 import Header from '../components/Header';
 import { Color, homeScreenIcons, transactions } from '../constants';
@@ -13,7 +13,6 @@ import { useUser } from '../hooks/useUser';
 
 const HomeScreen = ({ navigation }) => {
   const { user } = useUser();
-  console.log(user);
   const { refreshing, onRefresh } = useFakeRefresh();
   return (
     <>
@@ -34,7 +33,7 @@ const HomeScreen = ({ navigation }) => {
               fontWeight: '500',
               color: 'white',
               marginBottom: 8,
-            }}>{`₱69,420.68`}</Text>
+            }}>{`₱69,420.25`}</Text>
           <Text
             style={{
               color: 'white',

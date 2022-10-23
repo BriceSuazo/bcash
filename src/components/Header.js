@@ -1,9 +1,13 @@
-import { View, Button, TouchableOpacity, Image } from 'react-native';
+import { View, TouchableOpacity, Image } from 'react-native';
+import { Button } from 'react-native-paper';
 import { FontAwesome } from '@expo/vector-icons';
 import { useUser } from '../hooks/useUser';
+import { Color } from '../constants';
+import { useNavigation } from '@react-navigation/native';
 
 const Header = () => {
-  const { signout } = useUser();
+  const { signout, userLoading } = useUser();
+  const navigation = useNavigation();
   return (
     <View
       style={{
@@ -20,7 +24,18 @@ const Header = () => {
         style={{ width: 32, height: 32, resizeMode: 'contain' }}
         source={require('../assets/imgs/bcash-logo.png')}
       />
-      <Button title="Signout" onPress={async () => await signout()} />
+      <Button
+        mode="contained"
+        onPress={async () => await signout()}
+        style={{
+          borderRadius: 100,
+          backgroundColor: Color.primary,
+          marginBottom: 12,
+        }}
+        loading={userLoading}
+        disabled={userLoading}>
+        {!userLoading ? 'Sign out' : 'Loading...'}
+      </Button>
       <TouchableOpacity onPress={() => navigation.navigate('Notifications')}>
         <FontAwesome name="bell" size={22} color="white" />
       </TouchableOpacity>

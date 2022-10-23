@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import {
-  Text,
   View,
   Alert,
   TouchableOpacity,
@@ -9,7 +8,7 @@ import {
   TouchableWithoutFeedback,
   Platform,
 } from 'react-native';
-import { TextInput, Button } from 'react-native-paper';
+import { TextInput, Button, Text } from 'react-native-paper';
 import {
   Color,
   paddingHorizontalContainer,

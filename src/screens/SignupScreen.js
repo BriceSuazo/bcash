@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import {
-  Text,
   View,
   Alert,
   TouchableOpacity,
@@ -9,7 +8,7 @@ import {
   TouchableWithoutFeedback,
   Platform,
 } from 'react-native';
-import { TextInput, Button, Checkbox } from 'react-native-paper';
+import { TextInput, Button, Checkbox, Text } from 'react-native-paper';
 import { StackActions } from '@react-navigation/native';
 import { Color, paddingHorizontalContainer } from '../constants';
 import { Entypo, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
