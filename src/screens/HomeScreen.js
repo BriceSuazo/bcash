@@ -1,19 +1,14 @@
 import {
   View,
   TouchableOpacity,
-  ScrollView,
-  RefreshControl,
 } from 'react-native';
 import { Text } from 'react-native-paper';
 import { FontAwesome } from '@expo/vector-icons';
 import Header from '../components/Header';
 import { Color, homeScreenIcons } from '../constants';
-
-import { useUser } from '../hooks/useUser';
 import BottomNavigation from '../components/@home/BottomNavigation';
 
 const HomeScreen = ({ navigation }) => {
-  const { user } = useUser();
 
   return (
     <>

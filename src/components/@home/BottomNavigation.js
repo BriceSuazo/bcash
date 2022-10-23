@@ -3,6 +3,7 @@ import {
   BottomNavigation as BottomNavigationRNP,
   Text,
 } from 'react-native-paper';
+import { View } from 'react-native';
 import HomeRoute from './HomeRoute';
 import { Color } from '../../constants';
 import { Ionicons } from '@expo/vector-icons';
@@ -48,24 +49,39 @@ const BottomNavigation = () => {
 
   const renderScene = BottomNavigationRNP.SceneMap({
     home: () => <HomeRoute />,
-    inbox: () => <Text style={{textAlign:"center", flex:1, height:"100%"}}>No message yet.</Text>,
-    profile: () => <Text style={{textAlign:"center", flex:1, height:"100%"}}>Not available yet.</Text>,
-    settings: () => <Text style={{textAlign:"center", flex:1, height:"100%"}}>Settings</Text>,
+    inbox: () => (
+      <Text style={{ textAlign: 'center', flex: 1, height: '100%' }}>
+        No message yet.
+      </Text>
+    ),
+    profile: () => (
+      <Text style={{ textAlign: 'center', flex: 1, height: '100%' }}>
+        Not available yet.
+      </Text>
+    ),
+    settings: () => (
+      <Text style={{ textAlign: 'center', flex: 1, height: '100%' }}>
+        Settings
+      </Text>
+    ),
   });
 
   return (
-    <BottomNavigationRNP
-      shifting={true}
-      activeColor="#0c88da"
-      inactiveColor="#0c88da"
-      sceneAnimationType="shifting"
-      barStyle={{ backgroundColor: Color.primary }}
-      navigationState={{ index, routes }}
-      onIndexChange={setIndex}
-      renderScene={renderScene}
-      theme={{}}
-      // renderLabel={props=>{console.log(props)}}
-    />
+    <>
+      <View style={{ position: 'absolute', bottom: 0, left: '50%' }}>
+        <Text>lol</Text>
+      </View>
+      <BottomNavigationRNP
+        shifting={true}
+        activeColor="#0c88da"
+        inactiveColor="#0c88da"
+        sceneAnimationType="shifting"
+        barStyle={{ backgroundColor: Color.primary }}
+        navigationState={{ index, routes }}
+        onIndexChange={setIndex}
+        renderScene={renderScene}
+      />
+    </>
   );
 };
 

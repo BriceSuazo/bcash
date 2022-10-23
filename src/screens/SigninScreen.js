@@ -33,6 +33,7 @@ const SigninScreen = ({ navigation }) => {
       }}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View
+          
           style={{
             flex: 1,
             justifyContent: 'space-between',
@@ -42,9 +43,9 @@ const SigninScreen = ({ navigation }) => {
           <View />
           <View>
             <Text
+              variant="titleLarge"
               style={{
-                fontSize: 18,
-                fontWeight: '500',
+                fontWeight: 'bold',
                 marginBottom: 12,
                 textAlign: 'center',
               }}>
@@ -109,7 +110,9 @@ const SigninScreen = ({ navigation }) => {
                   marginBottom: 12,
                 }}>
                 {`Don't have an account yet? `}
-                <Text style={{ fontWeight: '500' }}>Sign up here.</Text>
+                <Text style={{ fontWeight: 'bold', color: Color.gray }}>
+                  Sign up here.
+                </Text>
               </Text>
             </TouchableOpacity>
             <Button

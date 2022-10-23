@@ -16,7 +16,7 @@ import { REGEX_EMAIL_VALIDATION } from '../constants';
 import { useUser } from '../hooks/useUser';
 
 const SignupScreen = ({ navigation }) => {
-  const { signup,userLoading } = useUser();
+  const { signup, userLoading } = useUser();
   const [signupCredentials, setSignupCredentials] = useState({
     firstName: '',
     lastName: '',
@@ -42,10 +42,10 @@ const SignupScreen = ({ navigation }) => {
           }}>
           <View />
           <View>
-            <Text
+           <Text
+              variant="titleLarge"
               style={{
-                fontSize: 18,
-                fontWeight: '500',
+                fontWeight: 'bold',
                 marginBottom: 12,
                 textAlign: 'center',
               }}>
@@ -170,7 +170,7 @@ const SignupScreen = ({ navigation }) => {
                         !signupCredentials.agreeOnPrivacyPolicy,
                     });
                 }}
-                labelStyle={{ fontSize: 12, textAlign: 'left' }}
+                labelStyle={{ fontSize: 12, textAlign: 'left', lineHeight: 16 }}
               />
             </View>
           </View>
@@ -186,7 +186,9 @@ const SignupScreen = ({ navigation }) => {
                   marginBottom: 12,
                 }}>
                 Already have an account?{' '}
-                <Text style={{ fontWeight: '500' }}>Sign in here.</Text>
+                <Text style={{ fontWeight: 'bold', color: Color.gray }}>
+                  Sign in here.
+                </Text>
               </Text>
             </TouchableOpacity>
             <Button

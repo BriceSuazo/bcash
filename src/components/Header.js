@@ -22,7 +22,7 @@ const Header = () => {
       }}>
       <Image
         style={{ width: 32, height: 32, resizeMode: 'contain' }}
-        source={require('../assets/imgs/bcash-logo.png')}
+        source={require('../assets/images/bcash-logo.png')}
       />
       <Button
         mode="contained"
