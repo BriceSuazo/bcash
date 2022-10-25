@@ -3,14 +3,14 @@ import { useState } from 'react';
 const useFakeRequest = () => {
   const [requestLoading, setRequestLoading] = useState(false);
 
-  const onFakeRequest = () => {
+  const onFakeRequest = (duration) => {
     setRequestLoading(true);
 
     return new Promise((resolve) =>
       setTimeout(() => {
         resolve();
         setRequestLoading(false);
-      }, 2000)
+      }, duration || 2000)
     );
   };
 

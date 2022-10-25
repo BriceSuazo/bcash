@@ -1,7 +1,7 @@
 import { Platform, StatusBar } from 'react-native';
 
 export const Color = {
-  primary: '#2db85b',
+  primary: '#a43d40',
   gray: 'gray',
 };
 
@@ -50,7 +50,17 @@ export const constantUsers = [
     lastName: 'Suazo',
     email: 'bricebrine.suazo@cvsu.edu.ph',
     mobileNo: '09617196607',
+    accountBalance: 69420.25,
     password: '12345678',
+  },
+  {
+    id:1 ,
+    firstName: 'Juan',
+    lastName: 'Dela Cruz',
+    email: 'bricebrinesuazo@gmail.com',
+    mobileNo: '09052558421',
+    accountBalance: 5000,
+    password: '87654321',
   },
 ];
 

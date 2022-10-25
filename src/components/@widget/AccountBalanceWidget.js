@@ -1,13 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TouchableOpacity, Image, View } from 'react-native';
 import { useNavigation, StackActions } from '@react-navigation/native';
 import { Text } from 'react-native-paper';
 import { Color } from '../../constants';
 import { Feather } from '@expo/vector-icons';
+import useFakeRequest from '../../hooks/useFakeRequest';
 
 const AccountBalanceWidget = () => {
   const navigation = useNavigation();
+
   const [isHidden, setIsHidden] = useState(true);
+  const { requestLoading, onFakeRequest } = useFakeRequest();
+
   return (
     <View stlye={{ overflow: 'hidden' }}>
       {!isHidden && (
@@ -63,8 +67,9 @@ const AccountBalanceWidget = () => {
           justifyContent: 'center',
           alignItems: 'center',
         }}
-        onPress={() => {
+        onPress={async () => {
           setIsHidden(false);
+          isHidden && (await onFakeRequest(500));
         }}>
         <View
           style={{
@@ -104,13 +109,17 @@ const AccountBalanceWidget = () => {
                 color: 'white',
                 fontSize: 12,
                 textAlign: 'center',
-              }}>{`Available Balance`}</Text>
+              }}>
+              Available Balance
+            </Text>
             <Text
               style={{
                 color: 'white',
                 fontSize: 42,
                 textAlign: 'center',
-              }}>{`₱69,420.25`}</Text>
+              }}>
+              {!requestLoading ? `₱69,420.25` : 'Processing...'}
+            </Text>
             <Text
               style={{
                 color: 'white',

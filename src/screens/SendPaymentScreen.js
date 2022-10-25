@@ -2,14 +2,14 @@ import { useState } from 'react';
 import { View, Alert } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import { Color, paddingHorizontalContainer } from '../constants';
-import useFakeRequest from '../hooks/useFakeRequest';
+import { useUser } from '../hooks/useUser';
 
 const SendPaymentScreen = ({ navigation }) => {
   const [sendPaymentData, setSendPaymentData] = useState({
     mobileNo: '',
     amount: '',
   });
-  const { requestLoading, onFakeRequest } = useFakeRequest();
+  const { userLoading, sendPayment } = useUser();
   return (
     <View
       style={{
@@ -61,9 +61,9 @@ const SendPaymentScreen = ({ navigation }) => {
           backgroundColor: Color.primary,
           marginBottom: 12,
         }}
-        loading={requestLoading}
-        disabled={requestLoading}
-        onPress={async() => {
+        loading={userLoading}
+        disabled={userLoading}
+        onPress={async () => {
           if (!sendPaymentData.mobileNo || !sendPaymentData.amount) {
             Alert.alert(
               'Invalid.',
@@ -107,23 +107,23 @@ const SendPaymentScreen = ({ navigation }) => {
                 : sendPaymentData.amount;
           }
 
-          await onFakeRequest();
-
+          await sendPayment(
+            parseInt(sendPaymentData.amount),
+            sendPaymentData.mobileNo
+          );
+          setSendPaymentData({ mobileNo: '', amount: '' });
           Alert.alert(
             'Payment sent!',
             `Payment to ${tempMobileNo} amounting of ₱${tempAmount} was sent!`,
             [
               {
                 text: 'OK',
-                onPress: () => {
-                  navigation.navigate('Home');
-                  setSendPaymentData({ mobileNo: '', amount: '' });
-                },
+                onPress: () => navigation.navigate('Home'),
               },
             ]
           );
         }}>
-        {!requestLoading ? 'Send' : 'Sending...'}
+        {!userLoading ? 'Send' : 'Sending...'}
       </Button>
     </View>
   );

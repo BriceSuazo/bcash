@@ -7,6 +7,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   Platform,
+  ScrollView,
 } from 'react-native';
 import { TextInput, Button, Text } from 'react-native-paper';
 import {
@@ -27,79 +28,90 @@ const SigninScreen = ({ navigation }) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : null}
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : 0}
       style={{
         flex: 1,
       }}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View
-          
           style={{
             flex: 1,
             justifyContent: 'space-between',
-            paddingHorizontal: paddingHorizontalContainer,
-            paddingVertical: 24,
           }}>
           <View />
-          <View>
-            <Text
-              variant="titleLarge"
-              style={{
-                fontWeight: 'bold',
-                marginBottom: 12,
-                textAlign: 'center',
-              }}>
-              Sign in to your account
-            </Text>
-            <TextInput
-              mode="outlined"
-              outlineColor={Color.gray}
-              label="Email"
-              autoComplete="email"
-              disabled={userLoading}
-              onChangeText={(text) =>
-                setSigninCredentials({ ...signinCredentials, email: text })
-              }
-              value={signinCredentials.email}
-              style={{
-                marginBottom: 12,
-              }}
-              theme={{ colors: { primary: Color.primary } }}
-              left={
-                <TextInput.Icon
-                  icon={() => (
-                    <Entypo name="email" size={24} color={Color.gray} />
-                  )}
-                />
-              }
-            />
-            <TextInput
-              mode="outlined"
-              outlineColor={Color.gray}
-              theme={{ colors: { primary: Color.primary } }}
-              disabled={userLoading}
-              label="Password"
-              autoComplete="password"
-              secureTextEntry
-              onChangeText={(text) =>
-                setSigninCredentials({ ...signinCredentials, password: text })
-              }
-              value={signinCredentials.password}
-              style={{
-                marginBottom: 12,
-              }}
-              left={
-                <TextInput.Icon
-                  icon={() => (
-                    <AntDesign name="lock" size={24} color={Color.gray} />
-                  )}
-                />
-              }
-            />
-          </View>
+          <ScrollView
+            style={{
+              flexShrink: 1,
+              height: '100%',
+              paddingHorizontal: paddingHorizontalContainer,
+            }}>
+            <View style={{ marginVertical: 24 }}>
+              <Text
+                variant="titleLarge"
+                style={{
+                  fontWeight: 'bold',
+                  marginBottom: 12,
+                  textAlign: 'center',
+                }}>
+                Sign in to your account
+              </Text>
+              <TextInput
+                mode="outlined"
+                outlineColor={Color.gray}
+                label="Email"
+                autoComplete="email"
+                disabled={userLoading}
+                onChangeText={(text) =>
+                  setSigninCredentials({ ...signinCredentials, email: text })
+                }
+                value={signinCredentials.email}
+                style={{
+                  marginBottom: 12,
+                }}
+                theme={{ colors: { primary: Color.primary } }}
+                left={
+                  <TextInput.Icon
+                    icon={() => (
+                      <Entypo name="email" size={24} color={Color.gray} />
+                    )}
+                  />
+                }
+              />
+              <TextInput
+                mode="outlined"
+                outlineColor={Color.gray}
+                theme={{ colors: { primary: Color.primary } }}
+                disabled={userLoading}
+                label="Password"
+                autoComplete="password"
+                secureTextEntry
+                onChangeText={(text) =>
+                  setSigninCredentials({ ...signinCredentials, password: text })
+                }
+                value={signinCredentials.password}
+                style={{
+                  marginBottom: 12,
+                }}
+                left={
+                  <TextInput.Icon
+                    icon={() => (
+                      <AntDesign name="lock" size={24} color={Color.gray} />
+                    )}
+                  />
+                }
+              />
+            </View>
+          </ScrollView>
 
-          <View>
+          <View
+            style={{
+              position: 'relative',
+              marginTop: 32,
+              marginBottom: 32,
+              marginHorizontal: paddingHorizontalContainer,
+            }}>
             <TouchableOpacity
+              style={{ position: 'absolute', top: -28, width: '100%' }}
               onPress={() => navigation.navigate('Signup')}
               disabled={userLoading}>
               <Text
@@ -121,7 +133,6 @@ const SigninScreen = ({ navigation }) => {
               style={{
                 borderRadius: 100,
                 backgroundColor: Color.primary,
-                marginBottom: 12,
               }}
               disabled={userLoading}
               loading={userLoading}

@@ -16,23 +16,28 @@ export const useUser = () => {
 const useProvideUser = () => {
   const navigation = useNavigation();
   const [users, setUsers] = useState(constantUsers);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({
+            id: 0,
+            firstName: 'Brice Brine',
+            lastName: 'Suazo',
+            email: 'bricebrine.suazo@cvsu.edu.ph',
+            mobileNo: '09617196607',
+            accountBalance: 69420.25,
+            password: '12345678',
+          });
   const { onFakeRequest, requestLoading } = useFakeRequest();
-
-  useEffect(() => {
-    if (!user) {
-      // navigation.dispatch(StackActions.replace('Signin'));
-    }
-  }, [user, navigation]);
 
   const signup = async (user) => {
     await onFakeRequest();
     const currentUser = isUserExists(user.email);
     if (!currentUser) {
-      setUsers((prev) => [...prev, { ...user, id: users.length }]);
-      setUser(isUserExists(user.email));
+      const newUser = { ...user, id: users.length, accountBalance: 0 };
+      console.log(newUser);
+      setUsers((prev) => [...prev, newUser]);
+      setUser(newUser);
+      navigation.dispatch(StackActions.replace('Home'));
+      return newUser;
     }
-    return currentUser;
   };
   const signout = async () => {
     await onFakeRequest();
@@ -48,11 +53,38 @@ const useProvideUser = () => {
       return currentUser;
     }
   };
+
+  const sendPayment = async (amount, receiverMobileNo) => {
+    await onFakeRequest();
+
+    console.log(amount, receiverMobileNo);
+    const isReceiverExists = prev.find(
+      (receiverData) => receiverData.mobileNo === receiverMobileNo
+    );
+
+      if (user.accountBalance > amount) {
+        setUser({ ...user, accountBalance: user.accountBalance - amount });
+        setUsers((prev) => {
+          const sender = prev.find((senderData) => senderData.id === user.id);
+          sender.accountBalance -= amount;
+        });
+        setUsers((prev) => {
+          const receiver = prev.find(
+            (receiverData) => receiverMobileNo === receiverData.mobileNo
+          );
+          receiver.accountBalance += amount;
+        });
+      }
+    }
+  };
+
   const isUserExists = (email) => {
     return users.find((user) => user.email === email);
   };
 
   return {
+    sendPayment,
+    user,
     signup,
     signout,
     signin,
