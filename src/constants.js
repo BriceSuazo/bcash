@@ -49,6 +49,7 @@ export const constantUsers = [
     firstName: 'Brice Brine',
     lastName: 'Suazo',
     email: 'bricebrine.suazo@cvsu.edu.ph',
+    mobileNo: '09617196607',
     password: '12345678',
   },
 ];

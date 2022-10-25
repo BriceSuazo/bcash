@@ -42,7 +42,7 @@ const SignupScreen = ({ navigation }) => {
           }}>
           <View />
           <View>
-           <Text
+            <Text
               variant="titleLarge"
               style={{
                 fontWeight: 'bold',
@@ -105,6 +105,35 @@ const SignupScreen = ({ navigation }) => {
                 />
               }
             />
+            <TextInput
+              mode="outlined"
+              outlineColor={Color.gray}
+              theme={{ colors: { primary: Color.primary } }}
+              label="Mobile number"
+              keyboardType="phone-pad"
+              autoComplete="tel-device"
+              onChangeText={(text) =>
+                setSignupCredentials({ ...signupCredentials, mobileNo: text })
+              }
+              disabled={userLoading}
+              value={signupCredentials.mobileNo}
+              style={{
+                width: '100%',
+                marginBottom: 12,
+              }}
+              left={
+                <TextInput.Icon
+                  icon={() => (
+                    <MaterialCommunityIcons
+                      name="phone"
+                      size={24}
+                      color={Color.gray}
+                    />
+                  )}
+                />
+              }
+            />
+
             <TextInput
               label="Email"
               autoComplete="email"

@@ -9,7 +9,49 @@ const AccountBalanceWidget = () => {
   const navigation = useNavigation();
   const [isHidden, setIsHidden] = useState(true);
   return (
-    <>
+    <View stlye={{ overflow: 'hidden' }}>
+      {!isHidden && (
+        <>
+          <TouchableOpacity
+            style={{
+              position: 'absolute',
+              top: 4,
+              left: 4,
+              flexDirection: 'row',
+              alignItems: 'center',
+              zIndex: 1,
+              padding: 8,
+            }}
+            onPress={() => setIsHidden(true)}>
+            <Feather
+              name="lock"
+              size={18}
+              color="white"
+              style={{ marginRight: 6 }}
+            />
+            <Text style={{ color: 'white' }}>Lock</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              position: 'absolute',
+              top: 4,
+              right: 4,
+              flexDirection: 'row',
+              alignItems: 'center',
+              zIndex: 1,
+              padding: 8,
+            }}
+            onPress={() => navigation.dispatch(StackActions.replace('Signin'))}>
+            <Text style={{ color: 'white' }}>Open</Text>
+            <Feather
+              name="log-in"
+              size={18}
+              color="white"
+              style={{ marginLeft: 6 }}
+            />
+          </TouchableOpacity>
+        </>
+      )}
       <TouchableOpacity
         activeOpacity={0.75}
         style={{
@@ -18,28 +60,24 @@ const AccountBalanceWidget = () => {
           backgroundColor: Color.primary,
           paddingHorizontal: 16,
           paddingVertical: 8,
+          justifyContent: 'center',
+          alignItems: 'center',
         }}
         onPress={() => {
-          isHidden
-            ? setIsHidden(false)
-            : navigation.dispatch(StackActions.replace('Home'));
+          setIsHidden(false);
         }}>
         <View
           style={{
             position: 'absolute',
-            top: '50%',
-            left: '50%',
             width: '60%',
             opacity: isHidden ? 1 : 0,
-            // transform: [{ translateX: '-50%' }, { translateY: '-50%' }],
-            // transform: 'translate(-50%, -50%)',
           }}>
           <View
             style={{
               flexDirection: 'row',
               alignItems: 'center',
             }}>
-            <Feather name="lock" size={32} color="white" />
+            <Feather name="unlock" size={32} color="white" />
             <Text
               style={{
                 color: 'white',
@@ -82,7 +120,7 @@ const AccountBalanceWidget = () => {
           </View>
         </View>
       </TouchableOpacity>
-    </>
+    </View>
   );
 };
 
