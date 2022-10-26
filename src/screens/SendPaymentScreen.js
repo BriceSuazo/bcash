@@ -110,18 +110,27 @@ const SendPaymentScreen = ({ navigation }) => {
           await sendPayment(
             parseInt(sendPaymentData.amount),
             sendPaymentData.mobileNo
-          );
-          setSendPaymentData({ mobileNo: '', amount: '' });
-          Alert.alert(
-            'Payment sent!',
-            `Payment to ${tempMobileNo} amounting of ₱${tempAmount} was sent!`,
-            [
-              {
-                text: 'OK',
-                onPress: () => navigation.navigate('Home'),
-              },
-            ]
-          );
+          )
+            .then(() => {
+              setSendPaymentData({ mobileNo: '', amount: '' });
+              Alert.alert(
+                'Payment sent!',
+                `Payment to ${tempMobileNo} amounting of ₱${tempAmount} was sent!`,
+                [
+                  {
+                    text: 'OK',
+                    onPress: () => navigation.navigate('Home'),
+                  },
+                ]
+              );
+            })
+            .catch((error) => {
+              Alert.alert('Oops!', `${error}`, [
+                {
+                  text: 'Try Again',
+                },
+              ]);
+            });
         }}>
         {!userLoading ? 'Send' : 'Sending...'}
       </Button>

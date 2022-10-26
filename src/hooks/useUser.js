@@ -16,15 +16,7 @@ export const useUser = () => {
 const useProvideUser = () => {
   const navigation = useNavigation();
   const [users, setUsers] = useState(constantUsers);
-  const [user, setUser] = useState({
-            id: 0,
-            firstName: 'Brice Brine',
-            lastName: 'Suazo',
-            email: 'bricebrine.suazo@cvsu.edu.ph',
-            mobileNo: '09617196607',
-            accountBalance: 69420.25,
-            password: '12345678',
-          });
+  const [user, setUser] = useState(null);
   const { onFakeRequest, requestLoading } = useFakeRequest();
 
   const signup = async (user) => {
@@ -57,25 +49,35 @@ const useProvideUser = () => {
   const sendPayment = async (amount, receiverMobileNo) => {
     await onFakeRequest();
 
-    console.log(amount, receiverMobileNo);
-    const isReceiverExists = prev.find(
+    const isReceiverExists = users.find(
       (receiverData) => receiverData.mobileNo === receiverMobileNo
     );
-
+    if (isReceiverExists) {
       if (user.accountBalance > amount) {
         setUser({ ...user, accountBalance: user.accountBalance - amount });
-        setUsers((prev) => {
-          const sender = prev.find((senderData) => senderData.id === user.id);
-          sender.accountBalance -= amount;
-        });
-        setUsers((prev) => {
-          const receiver = prev.find(
-            (receiverData) => receiverMobileNo === receiverData.mobileNo
-          );
-          receiver.accountBalance += amount;
-        });
+
+        // sender
+        setUsers(
+          users.map((prev) =>
+            prev.mobileNo === user.mobileNo
+              ? { ...prev, accountBalance: prev.accountBalance - amount }
+              : prev
+          )
+        );
+
+        // receiver
+        setUsers(
+          users.map((prev) =>
+            prev.mobileNo === receiverMobileNo
+              ? { ...prev, accountBalance: prev.accountBalance + amount }
+              : prev
+          )
+        );
+      } else {
+        return new Error('Not enough balance.');
       }
     }
+    return new Error('User not found.');
   };
 
   const isUserExists = (email) => {
