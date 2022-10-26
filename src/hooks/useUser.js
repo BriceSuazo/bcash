@@ -19,65 +19,86 @@ const useProvideUser = () => {
   const [user, setUser] = useState(null);
   const { onFakeRequest, requestLoading } = useFakeRequest();
 
-  const signup = async (user) => {
+  const signup = async (userCredential) => {
     await onFakeRequest();
-    const currentUser = isUserExists(user.email);
-    if (!currentUser) {
-      const newUser = { ...user, id: users.length, accountBalance: 0 };
-      console.log(newUser);
-      setUsers((prev) => [...prev, newUser]);
-      setUser(newUser);
-      navigation.dispatch(StackActions.replace('Home'));
-      return newUser;
+
+    if (isUserExists(userCredential.email)) {
+      return Promise.reject(
+        new Error('Email is already taken. Use another one.')
+      );
     }
+    if (
+      users.find((userInDB) => userInDB.mobileNo === userCredential.mobileNo)
+    ) {
+      return Promise.reject(
+        new Error('Mobile number is already taken. Use another one.')
+      );
+    }
+
+    const newUser = { ...userCredential, id: users.length, accountBalance: 0 };
+    setUsers((prev) => [...prev, newUser]);
+    setUser(newUser);
+    navigation.dispatch(StackActions.replace('Home'));
   };
+
   const signout = async () => {
     await onFakeRequest();
     setUser(null);
     navigation.dispatch(StackActions.replace('Signin'));
   };
+
   const signin = async (email, password) => {
     await onFakeRequest();
+
     const currentUser = isUserExists(email);
-    if (currentUser && currentUser.password === password) {
-      setUser(currentUser);
-      navigation.dispatch(StackActions.replace('Home'));
-      return currentUser;
+
+    if (!currentUser || currentUser.password !== password) {
+      return Promise.reject(new Error('Wrong email or password.'));
     }
+
+    setUser(currentUser);
+    navigation.dispatch(StackActions.replace('Home'));
   };
 
   const sendPayment = async (amount, receiverMobileNo) => {
     await onFakeRequest();
 
+    if (receiverMobileNo === user.mobileNo) {
+      return Promise.reject(
+        new Error(`You can't send money to your own mobile number.`)
+      );
+    }
+
     const isReceiverExists = users.find(
       (receiverData) => receiverData.mobileNo === receiverMobileNo
     );
-    if (isReceiverExists) {
-      if (user.accountBalance > amount) {
-        setUser({ ...user, accountBalance: user.accountBalance - amount });
-
-        // sender
-        setUsers(
-          users.map((prev) =>
-            prev.mobileNo === user.mobileNo
-              ? { ...prev, accountBalance: prev.accountBalance - amount }
-              : prev
-          )
-        );
-
-        // receiver
-        setUsers(
-          users.map((prev) =>
-            prev.mobileNo === receiverMobileNo
-              ? { ...prev, accountBalance: prev.accountBalance + amount }
-              : prev
-          )
-        );
-      } else {
-        return new Error('Not enough balance.');
-      }
+    if (isReceiverExists === undefined) {
+      return Promise.reject(new Error('Mobile number not found.'));
     }
-    return new Error('User not found.');
+
+    if (user.accountBalance < amount) {
+      return Promise.reject(new Error('Not enough balance.'));
+    }
+
+    setUser({ ...user, accountBalance: user.accountBalance - amount });
+
+    // sender
+    setUsers(
+      users.map((prev) =>
+        prev.mobileNo === user.mobileNo
+          ? { ...prev, accountBalance: prev.accountBalance - amount }
+          : prev
+      )
+    );
+
+    // receiver
+    setUsers(
+      users.map((prev) =>
+        prev.mobileNo === receiverMobileNo
+          ? { ...prev, accountBalance: prev.accountBalance + amount }
+          : prev
+      )
+    );
   };
 
   const isUserExists = (email) => {

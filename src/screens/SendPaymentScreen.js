@@ -3,13 +3,14 @@ import { View, Alert } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import { Color, paddingHorizontalContainer } from '../constants';
 import { useUser } from '../hooks/useUser';
+import currencyFormat from '../utils/currencyFormat';
 
 const SendPaymentScreen = ({ navigation }) => {
   const [sendPaymentData, setSendPaymentData] = useState({
-    mobileNo: '',
+    mobileNo: '09052558421',
     amount: '',
   });
-  const { userLoading, sendPayment } = useUser();
+  const { userLoading, sendPayment, user } = useUser();
   return (
     <View
       style={{
@@ -87,7 +88,6 @@ const SendPaymentScreen = ({ navigation }) => {
             return;
           }
           let tempMobileNo = sendPaymentData.mobileNo;
-          let tempAmount = sendPaymentData.amount;
           if (sendPaymentData.mobileNo.length === 10) {
             setSendPaymentData({
               ...sendPaymentData,
@@ -115,7 +115,11 @@ const SendPaymentScreen = ({ navigation }) => {
               setSendPaymentData({ mobileNo: '', amount: '' });
               Alert.alert(
                 'Payment sent!',
-                `Payment to ${tempMobileNo} amounting of ₱${tempAmount} was sent!`,
+                `Payment to ${tempMobileNo} from ${
+                  user.mobileNo
+                } amounting of ${currencyFormat(
+                  parseInt(sendPaymentData.amount)
+                )} was sent!`,
                 [
                   {
                     text: 'OK',
@@ -125,7 +129,7 @@ const SendPaymentScreen = ({ navigation }) => {
               );
             })
             .catch((error) => {
-              Alert.alert('Oops!', `${error}`, [
+              Alert.alert('Oops!', error.message, [
                 {
                   text: 'Try Again',
                 },

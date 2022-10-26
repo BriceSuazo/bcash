@@ -10,7 +10,6 @@ import {
   Platform,
 } from 'react-native';
 import { TextInput, Button, Checkbox, Text } from 'react-native-paper';
-import { StackActions } from '@react-navigation/native';
 import { Color, paddingHorizontalContainer } from '../constants';
 import { Entypo, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 import { REGEX_EMAIL_VALIDATION } from '../constants';
@@ -19,15 +18,15 @@ import { useUser } from '../hooks/useUser';
 const SignupScreen = ({ navigation }) => {
   const { signup, userLoading } = useUser();
 
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [signupCredentials, setSignupCredentials] = useState({
-    firstName: '',
-    lastName: '',
-    birthday: '',
-    email: '',
-    mobileNo: '',
-    password: '',
-    agreeOnPrivacyPolicy: false,
+    firstName: 'd',
+    lastName: 'd',
+    // birthday: '',
+    email: 'bricesuazo@gmail.com',
+    mobileNo: '09617196607',
+    password: '12345678',
+    confirmPassword: '12345678',
+    agreeOnPrivacyPolicy: true,
   });
   return (
     <KeyboardAvoidingView
@@ -198,8 +197,10 @@ const SignupScreen = ({ navigation }) => {
                 secureTextEntry={true}
                 disabled={userLoading}
                 autoComplete="password"
-                onChangeText={setConfirmPassword}
-                value={confirmPassword}
+                onChangeText={(text) =>
+                  setSignupCredentials({ ...signupCredentials, confirmPassword: text })
+                }
+                value={signupCredentials.confirmPassword}
                 minLength={8}
                 mode="outlined"
                 style={{
@@ -331,7 +332,7 @@ const SignupScreen = ({ navigation }) => {
                   );
                   return;
                 }
-                if (!confirmPassword) {
+                if (!signupCredentials.confirmPassword) {
                   Alert.alert(
                     'Invalid password',
                     'Please enter a valid password',
@@ -339,7 +340,7 @@ const SignupScreen = ({ navigation }) => {
                   );
                   return;
                 }
-                if (signupCredentials.password !== confirmPassword) {
+                if (signupCredentials.password !== signupCredentials.confirmPassword) {
                   Alert.alert(
                     'Password Not Same',
                     'Password and confirm password is not the same.',
@@ -356,30 +357,31 @@ const SignupScreen = ({ navigation }) => {
                   return;
                 }
 
-                const { agreeOnPrivacyPolicy, ...userNoAgree } =
+                const { agreeOnPrivacyPolicy,confirmPassword, ...userNoAgree } =
                   signupCredentials;
-                if (await signup(userNoAgree)) {
-                  Alert.alert(
-                    'Account already exists',
-                    'Your account is already existing. Try logging in.',
-                    [
+
+                await signup(userNoAgree)
+                  .then(() => {
+                    setSignupCredentials({
+                      firstName: '',
+                      lastName: '',
+                      birthday: '',
+                      email: '',
+                      password: '',
+                      agreeOnPrivacyPolicy: false,
+                    });
+                  })
+                  .catch((error) => {
+                    Alert.alert('Oops!', error.message, [
                       {
                         text: 'Go to login',
                         onPress: () => navigation.navigate('Signin'),
                       },
-                    ]
-                  );
-                  return;
-                }
-
-                setSignupCredentials({
-                  firstName: '',
-                  lastName: '',
-                  birthday: '',
-                  email: '',
-                  password: '',
-                  agreeOnPrivacyPolicy: false,
-                });
+                      {
+                        text: 'OK',
+                      },
+                    ]);
+                  });
               }}>
               {`Sign up`}
             </Button>

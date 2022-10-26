@@ -22,8 +22,8 @@ const SigninScreen = ({ navigation }) => {
   const { signin, userLoading } = useUser();
 
   const [signinCredentials, setSigninCredentials] = useState({
-    email: '',
-    password: '',
+    email: 'b@b.com',
+    password: '12345678',
   });
   return (
     <KeyboardAvoidingView
@@ -164,17 +164,16 @@ const SigninScreen = ({ navigation }) => {
                   return;
                 }
 
-                const test = await signin(
+                await signin(
                   signinCredentials.email,
                   signinCredentials.password
-                );
-                if (!test) {
+                ).catch((error) => {
                   Alert.alert(
-                    'Invalid credentials',
-                    'Email or password is incorrect.',
+                    'Oops!',
+                    error.message,
                     [{ text: 'OK' }]
                   );
-                }
+                });
               }}>
               {`Sign in`}
             </Button>
