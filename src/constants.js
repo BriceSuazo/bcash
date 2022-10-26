@@ -16,7 +16,7 @@ export const constantUsers = [
     password: '12345678',
   },
   {
-    id:1 ,
+    id: 1,
     firstName: 'Juan',
     lastName: 'Dela Cruz',
     email: 'bricebrinesuazo@gmail.com',
@@ -63,8 +63,6 @@ export const transactions = [
   { type: 'Transfer', to: '+639123456789', amount: `₱658.32` },
   { type: 'Transfer', to: '+639123456789', amount: `₱658.32` },
 ];
-
-
 
 export const notifications = [
   {

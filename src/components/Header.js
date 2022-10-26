@@ -1,8 +1,8 @@
 import { View, TouchableOpacity, Image } from 'react-native';
-import { Button } from 'react-native-paper';
+import { Button, Badge } from 'react-native-paper';
 import { FontAwesome } from '@expo/vector-icons';
 import { useUser } from '../hooks/useUser';
-import { Color } from '../constants';
+import { Color, notifications } from '../constants';
 import { useNavigation } from '@react-navigation/native';
 
 const Header = () => {
@@ -37,6 +37,18 @@ const Header = () => {
         {!userLoading ? 'Sign out' : 'Loading...'}
       </Button>
       <TouchableOpacity onPress={() => navigation.navigate('Notifications')}>
+        <Badge
+          size={16}
+          visible={notifications.filter((notif) => notif.isNew).length}
+          style={{
+            backgroundColor: 'green',
+            position: 'absolute',
+            top: -4,
+            right: -4,
+            zIndex: 1,
+          }}>
+          {notifications.filter((notif) => notif.isNew).length}
+        </Badge>
         <FontAwesome name="bell" size={22} color="white" />
       </TouchableOpacity>
     </View>

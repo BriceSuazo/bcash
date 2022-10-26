@@ -16,7 +16,15 @@ export const useUser = () => {
 const useProvideUser = () => {
   const navigation = useNavigation();
   const [users, setUsers] = useState(constantUsers);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({
+    id: 0,
+    firstName: 'Brice Brine',
+    lastName: 'Suazo',
+    email: 'b@b.com',
+    mobileNo: '09617196607',
+    accountBalance: 69420.25,
+    password: '12345678',
+  });
   const { onFakeRequest, requestLoading } = useFakeRequest();
 
   const signup = async (userCredential) => {
