@@ -134,7 +134,9 @@ const SigninScreen = ({ navigation }) => {
                 borderRadius: 100,
                 backgroundColor: Color.primary,
               }}
-              disabled={userLoading}
+              labelStyle={{
+                color: !userLoading ? 'white' : 'rgba(255,255,255, 0.75)',
+              }}
               loading={userLoading}
               onPress={async () => {
                 if (
@@ -168,11 +170,7 @@ const SigninScreen = ({ navigation }) => {
                   signinCredentials.email,
                   signinCredentials.password
                 ).catch((error) => {
-                  Alert.alert(
-                    'Oops!',
-                    error.message,
-                    [{ text: 'OK' }]
-                  );
+                  Alert.alert('Oops!', error.message, [{ text: 'OK' }]);
                 });
               }}>
               {`Sign in`}

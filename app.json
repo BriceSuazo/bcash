@@ -1,33 +1,36 @@
 {
   "expo": {
-    "name": "suazo---dcit26---task-1-3---prelim-project",
-    "slug": "snack-f21df209-798d-4c2d-8b96-6e72e8e12241",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+    "name": "BCash",
+    "description": "A GCash alternative",
+    "slug": "bcash",
+    "privacy": "public",
+    "notification": {
+      "icon": "./src/assets/images/bcash-logo.png",
+      "color": "#304057",
+      "iosDisplayInForeground": true,
+      "androidMode": "default",
+      "androidCollapsedTitle": "Notification from BCash!"
     },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.bcash.bcash",
+      "icon": "./src/assets/images/bcash-logo.png"
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+      "package": "com.bcash.bcash",
+      "versionCode": 1,
+      "permissions": [
+        ""
+      ],
+      "useNextNotificationsApi": true,
+      "icon": "./src/assets/images/bcash-logo.png",
+      "googleServicesFile": "./google-services.json"
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    }
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./src/assets/images/bcash-logo.png"
   }
 }

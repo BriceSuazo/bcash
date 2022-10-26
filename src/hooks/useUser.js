@@ -1,8 +1,10 @@
-import { useState, useContext, createContext, useEffect } from 'react';
-const usersContext = createContext();
+import { useState, useContext, createContext } from 'react';
 import { constantUsers } from '../constants';
 import { useNavigation, StackActions } from '@react-navigation/native';
 import useFakeRequest from './useFakeRequest';
+import { useNotification } from './useNotification';
+
+const usersContext = createContext();
 
 export function UserProvider({ children }) {
   const user = useProvideUser();
@@ -25,6 +27,8 @@ const useProvideUser = () => {
     accountBalance: 69420.25,
     password: '12345678',
   });
+
+  const { schedulePushNotification } = useNotification();
   const { onFakeRequest, requestLoading } = useFakeRequest();
 
   const signup = async (userCredential) => {
@@ -69,6 +73,11 @@ const useProvideUser = () => {
   };
 
   const sendPayment = async (amount, receiverMobileNo) => {
+    await schedulePushNotification({
+      from: user.mobileNo,
+      to: receiverMobileNo,
+      amount,
+    });
     await onFakeRequest();
 
     if (receiverMobileNo === user.mobileNo) {

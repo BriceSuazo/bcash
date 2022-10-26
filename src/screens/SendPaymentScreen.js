@@ -62,8 +62,10 @@ const SendPaymentScreen = ({ navigation }) => {
           backgroundColor: Color.primary,
           marginBottom: 12,
         }}
+        labelStyle={{
+          color: !userLoading ? 'white' : 'rgba(255,255,255, 0.75)',
+        }}
         loading={userLoading}
-        disabled={userLoading}
         onPress={async () => {
           if (!sendPaymentData.mobileNo || !sendPaymentData.amount) {
             Alert.alert(

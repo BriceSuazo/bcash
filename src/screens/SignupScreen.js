@@ -198,7 +198,10 @@ const SignupScreen = ({ navigation }) => {
                 disabled={userLoading}
                 autoComplete="password"
                 onChangeText={(text) =>
-                  setSignupCredentials({ ...signupCredentials, confirmPassword: text })
+                  setSignupCredentials({
+                    ...signupCredentials,
+                    confirmPassword: text,
+                  })
                 }
                 value={signupCredentials.confirmPassword}
                 minLength={8}
@@ -276,7 +279,9 @@ const SignupScreen = ({ navigation }) => {
                 borderRadius: 100,
                 backgroundColor: Color.primary,
               }}
-              disabled={userLoading}
+              labelStyle={{
+                color: !userLoading ? 'white' : 'rgba(255,255,255, 0.75)',
+              }}
               loading={userLoading}
               onPress={async () => {
                 if (!signupCredentials.firstName) {
@@ -340,7 +345,10 @@ const SignupScreen = ({ navigation }) => {
                   );
                   return;
                 }
-                if (signupCredentials.password !== signupCredentials.confirmPassword) {
+                if (
+                  signupCredentials.password !==
+                  signupCredentials.confirmPassword
+                ) {
                   Alert.alert(
                     'Password Not Same',
                     'Password and confirm password is not the same.',
@@ -357,8 +365,11 @@ const SignupScreen = ({ navigation }) => {
                   return;
                 }
 
-                const { agreeOnPrivacyPolicy,confirmPassword, ...userNoAgree } =
-                  signupCredentials;
+                const {
+                  agreeOnPrivacyPolicy,
+                  confirmPassword,
+                  ...userNoAgree
+                } = signupCredentials;
 
                 await signup(userNoAgree)
                   .then(() => {

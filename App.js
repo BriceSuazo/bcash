@@ -9,6 +9,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Color } from './src/constants';
 import { StatusBar } from 'expo-status-bar';
 import { UserProvider } from './src/hooks/useUser';
+import { NotificationProvider } from './src/hooks/useNotification';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,7 @@ export default function App() {
     <>
       <StatusBar style="light" animated={true} />
       <NavigationContainer>
+        <NotificationProvider>
         <UserProvider>
           <Stack.Navigator
             initialRouteName="Home"
@@ -60,6 +62,7 @@ export default function App() {
             />
           </Stack.Navigator>
         </UserProvider>
+        </NotificationProvider>
       </NavigationContainer>
     </>
   );

@@ -1,7 +1,7 @@
 import { Platform, StatusBar } from 'react-native';
 
 export const Color = {
-  primary: '#a43d40',
+  primary: '#304057',
   gray: 'gray',
 };
 
