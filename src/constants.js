@@ -5,26 +5,7 @@ export const Color = {
   gray: 'gray',
 };
 
-export const constantUsers = [
-  {
-    id: 0,
-    firstName: 'Brice Brine',
-    lastName: 'Suazo',
-    email: 'b@b.com',
-    mobileNo: '09617196607',
-    accountBalance: 69420.25,
-    password: '12345678',
-  },
-  {
-    id: 1,
-    firstName: 'Juan',
-    lastName: 'Dela Cruz',
-    email: 'bricebrinesuazo@gmail.com',
-    mobileNo: '09052558421',
-    accountBalance: 5000,
-    password: '87654321',
-  },
-];
+export const constantUsers = [];
 
 export const STATUSBAR_HEIGHT =
   Platform.OS === 'ios' ? 20 : StatusBar.currentHeight;
@@ -37,60 +18,164 @@ export const REGEX_EMAIL_VALIDATION =
 export const homeScreenIcons = [
   { icon: 'send', navigate: 'SendPayment', text: 'Send' },
   { icon: 'download', navigate: '', text: 'Receive' },
-  { icon: 'shopping-cart', navigate: '', text: 'Buy' },
-  { icon: 'arrows-h', navigate: '', text: 'Swap' },
+  { icon: 'bank', navigate: '', text: 'Transfer' },
+  { icon: 'calendar', navigate: '', text: 'Pay Bills' },
 ];
 
 export const transactions = [
-  { type: 'Transfer', to: 'LAZADA PH', amount: `₱20.00` },
-  { type: 'Buy', to: '+639123456789', amount: `₱128.75` },
-  { type: 'Swap', to: 'SHOPEE', amount: `₱54.50` },
-  { type: 'Transfer', to: '+639123456789', amount: `₱658.32` },
-  { type: 'Transfer', to: 'LAZADA PH', amount: `₱20.00` },
-  { type: 'Transfer', to: '+639123456789', amount: `₱658.32` },
-  { type: 'Transfer', to: '+639123456789', amount: `₱658.32` },
-  { type: 'Buy', to: '+639123456789', amount: `₱128.75` },
-  { type: 'Transfer', to: '+639123456789', amount: `₱658.32` },
-  { type: 'Swap', to: 'SHOPEE', amount: `₱54.50` },
-  { type: 'Transfer', to: '+639123456789', amount: `₱658.32` },
-  { type: 'Transfer', to: '+639123456789', amount: `₱658.32` },
-  { type: 'Transfer', to: '+639123456789', amount: `₱658.32` },
-  { type: 'Buy', to: '+639123456789', amount: `₱128.75` },
-  { type: 'Transfer', to: '+639123456789', amount: `₱658.32` },
-  { type: 'Transfer', to: '+639123456789', amount: `₱658.32` },
-  { type: 'Transfer', to: '+639123456789', amount: `₱658.32` },
-  { type: 'Transfer', to: '+639123456789', amount: `₱658.32` },
-  { type: 'Transfer', to: '+639123456789', amount: `₱658.32` },
-  { type: 'Transfer', to: '+639123456789', amount: `₱658.32` },
+  {
+    referenceId: Date.now(),
+    type: 'Transfer',
+    to: 'LAZADA PH',
+    amount: `₱20.00`,
+  },
+  {
+    referenceId: Date.now(),
+    type: 'Pay Bills',
+    to: '+639123456789',
+    amount: `₱128.75`,
+  },
+  { referenceId: Date.now(), type: 'Buy', to: 'SHOPEE', amount: `₱54.50` },
+  {
+    referenceId: Date.now(),
+    type: 'Transfer',
+    to: '+639123456789',
+    amount: `₱658.32`,
+  },
+  {
+    referenceId: Date.now(),
+    type: 'Transfer',
+    to: 'LAZADA PH',
+    amount: `₱20.00`,
+  },
+  {
+    referenceId: Date.now(),
+    type: 'Transfer',
+    to: '+639123456789',
+    amount: `₱658.32`,
+  },
+  {
+    referenceId: Date.now(),
+    type: 'Pay Bills',
+    to: '+639123456789',
+    amount: `₱128.75`,
+  },
+  {
+    referenceId: Date.now(),
+    type: 'Transfer',
+    to: '+639123456789',
+    amount: `₱658.32`,
+  },
+  {
+    referenceId: Date.now(),
+    type: 'Pay Bills',
+    to: '+639123456789',
+    amount: `₱128.75`,
+  },
+  {
+    referenceId: Date.now(),
+    type: 'Transfer',
+    to: '+639123456789',
+    amount: `₱658.32`,
+  },
+  { referenceId: Date.now(), type: 'Buy', to: 'SHOPEE', amount: `₱54.50` },
+  {
+    referenceId: Date.now(),
+    type: 'Transfer',
+    to: '+639123456789',
+    amount: `₱658.32`,
+  },
+  {
+    referenceId: Date.now(),
+    type: 'Transfer',
+    to: '+639123456789',
+    amount: `₱658.32`,
+  },
+  {
+    referenceId: Date.now(),
+    type: 'Transfer',
+    to: '+639123456789',
+    amount: `₱658.32`,
+  },
+  {
+    referenceId: Date.now(),
+    type: 'Pay Bills',
+    to: '+639123456789',
+    amount: `₱128.75`,
+  },
+  {
+    referenceId: Date.now(),
+    type: 'Transfer',
+    to: '+639123456789',
+    amount: `₱658.32`,
+  },
+  {
+    referenceId: Date.now(),
+    type: 'Transfer',
+    to: '+639123456789',
+    amount: `₱658.32`,
+  },
+  {
+    referenceId: Date.now(),
+    type: 'Transfer',
+    to: '+639617096607',
+    amount: `₱658.32`,
+  },
+  {
+    referenceId: Date.now(),
+    type: 'Transfer',
+    to: '+639123456789',
+    amount: `₱658.32`,
+  },
+  {
+    referenceId: Date.now(),
+    type: 'Transfer',
+    to: '+639123456789',
+    amount: `₱658.32`,
+  },
+  {
+    referenceId: Date.now(),
+    type: 'Transfer',
+    to: '+639123456789',
+    amount: `₱658.32`,
+  },
 ];
 
 export const notifications = [
   {
+    referenceId: Date.now(),
     icon: 'send',
     title: 'Transfered money',
-    subtitle: '',
+    receiverMobileNo: '09123456789',
     date: '8:42 PM | October 21, 2022',
     isNew: true,
+    amount: 6969,
   },
   {
+    referenceId: Date.now(),
     icon: 'download',
     title: 'Multiple Wallet Features!',
-    subtitle: '',
+    receiverMobileNo: '09123456789',
     date: '12:21 PM | October 21, 2022',
     isNew: false,
+    amount: 6969,
   },
   {
+    referenceId: Date.now(),
     icon: 'shield',
     title: 'Security Updates!',
-    subtitle: '',
+    receiverMobileNo: '09123456789',
     date: '12:21 PM | October 21, 2022',
     isNew: false,
+    amount: 6969,
   },
   {
+    referenceId: Date.now(),
     icon: 'download',
     title: 'Multiple Wallet Features!',
-    subtitle: '',
+    receiverMobileNo: '09123456789',
     date: '12:21 PM | October 21, 2022',
     isNew: false,
+    amount: 6969,
   },
 ];

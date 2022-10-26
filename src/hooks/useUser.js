@@ -1,5 +1,8 @@
 import { useState, useContext, createContext } from 'react';
-import { constantUsers } from '../constants';
+import {
+  constantUsers,
+  notifications as notificationsData,
+} from '../constants';
 import { useNavigation, StackActions } from '@react-navigation/native';
 import useFakeRequest from './useFakeRequest';
 import { useNotification } from './useNotification';
@@ -18,15 +21,8 @@ export const useUser = () => {
 const useProvideUser = () => {
   const navigation = useNavigation();
   const [users, setUsers] = useState(constantUsers);
-  const [user, setUser] = useState({
-    id: 0,
-    firstName: 'Brice Brine',
-    lastName: 'Suazo',
-    email: 'b@b.com',
-    mobileNo: '09617196607',
-    accountBalance: 69420.25,
-    password: '12345678',
-  });
+  const [notifications, setNotifications] = useState(notificationsData);
+  const [user, setUser] = useState();
 
   const { schedulePushNotification } = useNotification();
   const { onFakeRequest, requestLoading } = useFakeRequest();
@@ -47,7 +43,7 @@ const useProvideUser = () => {
       );
     }
 
-    const newUser = { ...userCredential, id: users.length, accountBalance: 0 };
+    const newUser = { ...userCredential, id: users.length, accountBalance: 69420.25 };
     setUsers((prev) => [...prev, newUser]);
     setUser(newUser);
     navigation.dispatch(StackActions.replace('Home'));
@@ -73,11 +69,6 @@ const useProvideUser = () => {
   };
 
   const sendPayment = async (amount, receiverMobileNo) => {
-    await schedulePushNotification({
-      from: user.mobileNo,
-      to: receiverMobileNo,
-      amount,
-    });
     await onFakeRequest();
 
     if (receiverMobileNo === user.mobileNo) {
@@ -116,6 +107,27 @@ const useProvideUser = () => {
           : prev
       )
     );
+
+    setNotifications((prev) => [
+      {
+        referenceId: Date.now(),
+        icon: 'send',
+        title: 'Transfered money',
+        amount,
+        receiverMobileNo,
+        date: `${
+          new Date(Date.now()).toLocaleTimeString().split(' ')[0]
+        } | ${new Date(Date.now()).toDateString()}`,
+        isNew: true,
+      },
+      ...prev,
+    ]);
+
+    await schedulePushNotification({
+      from: user.mobileNo,
+      to: receiverMobileNo,
+      amount,
+    });
   };
 
   const isUserExists = (email) => {
@@ -123,6 +135,7 @@ const useProvideUser = () => {
   };
 
   return {
+    notifications,
     sendPayment,
     user,
     signup,

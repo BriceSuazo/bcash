@@ -15,18 +15,18 @@ import * as Clipboard from 'expo-clipboard';
 const alert = (transaction) => {
   Alert.alert(
     transaction.type,
-    `To: ${transaction.to}\nAmount: ${transaction.amount}`,
+    `To: ${transaction.to}\nAmount: ${transaction.amount}\nReference No.: ${transaction.referenceId}`,
     [
       {
         text: 'Copy Reference ID',
         onPress: async () => {
-          await Clipboard.setStringAsync(transaction.referenceId);
+          await Clipboard.setStringAsync(transaction.referenceId.toString());
 
           ToastAndroid.show('Copied to clipboard.', ToastAndroid.SHORT);
         },
       },
       { text: 'OK' },
-    ]
+    ],{cancelable:true}
   );
 };
 
@@ -67,8 +67,8 @@ const HomeRoute = () => {
                   <FontAwesome
                     name={
                       (transaction.type === 'Transfer' && 'send') ||
-                      (transaction.type === 'Buy' && 'shopping-cart') ||
-                      (transaction.type === 'Swap' && 'arrows-h')
+                      (transaction.type === 'Pay Bills' && 'calendar') ||
+                      (transaction.type === 'Buy' && 'shopping-cart')
                     }
                     size={18}
                     color="white"

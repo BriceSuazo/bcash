@@ -21,7 +21,7 @@ export default function App() {
         <NotificationProvider>
         <UserProvider>
           <Stack.Navigator
-            initialRouteName="Home"
+            initialRouteName="Widget"
             screenOptions={{
               headerStyle: { backgroundColor: Color.primary },
               headerTintColor: '#fff',

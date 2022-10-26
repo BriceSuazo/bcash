@@ -22,8 +22,8 @@ const SigninScreen = ({ navigation }) => {
   const { signin, userLoading } = useUser();
 
   const [signinCredentials, setSigninCredentials] = useState({
-    email: 'b@b.com',
-    password: '12345678',
+    email: '',
+    password: '',
   });
   return (
     <KeyboardAvoidingView

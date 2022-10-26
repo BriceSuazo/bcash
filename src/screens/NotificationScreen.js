@@ -3,15 +3,42 @@ import {
   TouchableOpacity,
   RefreshControl,
   ScrollView,
+  Alert,
+  ToastAndroid,
 } from 'react-native';
 import { useState } from 'react';
 import { Text, Searchbar } from 'react-native-paper';
 import { FontAwesome } from '@expo/vector-icons';
-import { Color, paddingHorizontalContainer, notifications } from '../constants';
+import { Color, paddingHorizontalContainer } from '../constants';
 import useFakeRefresh from '../hooks/useFakeRefresh';
+import { useUser } from '../hooks/useUser';
+import currencyFormat from '../utils/currencyFormat';
+import * as Clipboard from 'expo-clipboard';
+
+const alert = (notification) => {
+  Alert.alert(
+    notification.title,
+    `To: ${notification.receiverMobileNo}\nAmount: ${currencyFormat(
+      notification.amount
+    )}\nDate: ${notification.date}\nReference No.: ${notification.referenceId}`,
+    [
+      {
+        text: 'Copy Reference ID',
+        onPress: async () => {
+          await Clipboard.setStringAsync(notification.referenceId.toString());
+
+          ToastAndroid.show('Copied to clipboard.', ToastAndroid.SHORT);
+        },
+      },
+      { text: 'OK' },
+    ],
+    { cancelable: true }
+  );
+};
 
 const NotificationScreen = () => {
   const { refreshing, onRefresh } = useFakeRefresh();
+  const { notifications } = useUser();
   const [searchQuery, setSearchQuery] = useState('');
 
   return (
@@ -20,7 +47,11 @@ const NotificationScreen = () => {
         placeholder="Search"
         onChangeText={setSearchQuery}
         value={searchQuery}
-        style={{ borderRadius: 100, marginHorizontal:paddingHorizontalContainer, marginTop:paddingHorizontalContainer }}
+        style={{
+          borderRadius: 100,
+          marginHorizontal: paddingHorizontalContainer,
+          marginTop: paddingHorizontalContainer,
+        }}
       />
       <ScrollView
         style={{
@@ -39,7 +70,8 @@ const NotificationScreen = () => {
                 flexDirection: 'row',
                 alignItems: 'center',
                 paddingVertical: 8,
-              }}>
+              }}
+              onPress={() => alert(notification)}>
               <View
                 style={{
                   width: 42,

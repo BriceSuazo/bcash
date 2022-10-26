@@ -19,14 +19,14 @@ const SignupScreen = ({ navigation }) => {
   const { signup, userLoading } = useUser();
 
   const [signupCredentials, setSignupCredentials] = useState({
-    firstName: 'd',
-    lastName: 'd',
+    firstName: '',
+    lastName: '',
     // birthday: '',
-    email: 'bricesuazo@gmail.com',
-    mobileNo: '09617196607',
-    password: '12345678',
-    confirmPassword: '12345678',
-    agreeOnPrivacyPolicy: true,
+    email: '',
+    mobileNo: '',
+    password: '',
+    confirmPassword: '',
+    agreeOnPrivacyPolicy: false,
   });
   return (
     <KeyboardAvoidingView
