@@ -2,11 +2,11 @@ import { View, TouchableOpacity, Image } from 'react-native';
 import { Button, Badge } from 'react-native-paper';
 import { FontAwesome } from '@expo/vector-icons';
 import { useUser } from '../hooks/useUser';
-import { Color, notifications } from '../constants';
+import { Color } from '../constants';
 import { useNavigation } from '@react-navigation/native';
 
 const Header = () => {
-  const { signout, userLoading } = useUser();
+  const { signout, userLoading, notifications } = useUser();
   const navigation = useNavigation();
   return (
     <>

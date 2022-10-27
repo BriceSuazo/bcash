@@ -2,16 +2,16 @@
 
 ## **BCash: An open-source react native GCash alternative.**
 
-Created with  [Expo Snack](https://snack.expo.dev/).<br />
+Created with  [Expo Snack](https://snack.expo.dev/).\
 
 Demo: https://snack.expo.dev/@bricesuazo/bcash
 
 
-Mock credentials (for send payment demo):<br />
-Email: juan@delacruz.com<br />
-Password: 123456789<br />
-<br />
-Email: pedro@reyes.com<br />
-Password: 987654321<br />
-<br />
+Mock credentials (for send payment demo):\
+Email: juan@delacruz.com\
+Password: 123456789\
+\
+Email: pedro@reyes.com\
+Password: 987654321\
+\
 Or you can change `/src/constant.js` to add and modify user's credentials.

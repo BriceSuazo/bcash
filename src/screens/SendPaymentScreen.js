@@ -7,7 +7,7 @@ import currencyFormat from '../utils/currencyFormat';
 
 const SendPaymentScreen = ({ navigation }) => {
   const [sendPaymentData, setSendPaymentData] = useState({
-    mobileNo: '09052558421',
+    mobileNo: '',
     amount: '',
   });
   const { userLoading, sendPayment, user } = useUser();

@@ -22,7 +22,7 @@ const useProvideUser = () => {
   const navigation = useNavigation();
   const [users, setUsers] = useState(constantUsers);
   const [notifications, setNotifications] = useState(notificationsData);
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(constantUsers[0] || undefined);
 
   const { schedulePushNotification } = useNotification();
   const { onFakeRequest, requestLoading } = useFakeRequest();
@@ -43,7 +43,11 @@ const useProvideUser = () => {
       );
     }
 
-    const newUser = { ...userCredential, id: users.length, accountBalance: 69420.25 };
+    const newUser = {
+      ...userCredential,
+      id: users.length,
+      accountBalance: 69420.25,
+    };
     setUsers((prev) => [...prev, newUser]);
     setUser(newUser);
     navigation.dispatch(StackActions.replace('Home'));

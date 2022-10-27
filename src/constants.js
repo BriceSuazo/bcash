@@ -5,7 +5,26 @@ export const Color = {
   gray: 'gray',
 };
 
-export const constantUsers = [];
+export const constantUsers = [
+  {
+    id: 0,
+    firstName: 'Juan',
+    lastName: 'Dela Cruz',
+    email: 'juan@delacruz.com',
+    mobileNo: '09123456789',
+    accountBalance: 69420.25,
+    password: '123456789',
+  },
+  {
+    id: 1,
+    firstName: 'Pedro',
+    lastName: 'Reyes',
+    email: 'pedro@reyes.com',
+    mobileNo: '09987654321',
+    accountBalance: 69420.25,
+    password: '987654321',
+  },
+];
 
 export const STATUSBAR_HEIGHT =
   Platform.OS === 'ios' ? 20 : StatusBar.currentHeight;
