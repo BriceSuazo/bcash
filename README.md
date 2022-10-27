@@ -2,7 +2,7 @@
 
 ## **BCash: An open-source react native GCash alternative.**
 
-Created with  [Expo Snack](https://snack.expo.dev/).\
+Created with  [Expo Snack](https://snack.expo.dev/).
 
 Demo: https://snack.expo.dev/@bricesuazo/bcash
 
